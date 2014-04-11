@@ -2,7 +2,6 @@ package me.hunsoo.wikipedia;
 
 import me.hunsoo.wikipedia.mapper.TopNMapper;
 import me.hunsoo.wikipedia.reducer.TopNReducer;
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -25,7 +24,6 @@ public class TestTopN {
     MapDriver<LongWritable, Text, NullWritable, Text> mapDriver;
     ReduceDriver<NullWritable, Text, NullWritable, Text> reduceDriver;
     MapReduceDriver<LongWritable, Text, NullWritable, Text, NullWritable, Text> mapReduceDriver;
-    Configuration conf;
 
     @Before
     public void setup() throws IOException, URISyntaxException {

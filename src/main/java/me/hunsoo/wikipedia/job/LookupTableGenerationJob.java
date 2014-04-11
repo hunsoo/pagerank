@@ -13,14 +13,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
 
-/**
- * Created by hunsoo on 4/10/14.
- */
 public class LookupTableGenerationJob {
     /**
      * Generates <id,title> pair of all pages from the input.
-     * @param inputPath
-     * @param outputPath
+     * @param inputPath Extracted links input folder path
+     * @param outputPath Lookup table output folder path
      * @throws java.io.IOException
      */
     public void generate(String inputPath, String outputPath)

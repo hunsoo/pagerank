@@ -15,8 +15,8 @@ import java.io.IOException;
 public class LinkExtractionJob {
     /**
      * Parses input dump files and extracts links for all pages
-     * @param inputPath
-     * @param outputPath
+     * @param inputPath Raw wikipedia input folder path
+     * @param outputPath Extracted links output folder path
      * @throws java.io.IOException
      * @throws ClassNotFoundException
      * @throws InterruptedException

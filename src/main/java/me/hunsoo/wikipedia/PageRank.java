@@ -11,11 +11,10 @@ import java.text.NumberFormat;
  * Calculates PageRank of articles from a snapshot of English Wikipedia dumps.
  */
 public class PageRank {
-    private static Logger logger = Logger.getLogger(PageRank.class);
-    private static NumberFormat twoDigits = new DecimalFormat("00");
+    private static final Logger logger = Logger.getLogger(PageRank.class);
+    private static final NumberFormat twoDigits = new DecimalFormat("00");
 
     public static void main(String[] args) throws Exception {
-        final PageRank pageRank = new PageRank();
 
         if (args.length != 4) {
             System.err.println("Usage: PageRank <input path> <output path> <number of pagerank calculation iterations> <N>");
@@ -41,7 +40,7 @@ public class PageRank {
 
         // Job 3: Generate link graph of page ids and remove link pages that cannot be identified with id
         LinkGraphGenerationJob linkGraphGenerationJob = new LinkGraphGenerationJob();
-        linkGraphGenerationJob.generate(outputPath + "/links", outputPath + "/iteration-00", outputPath + "/lookup-table/part-r-00000");
+        linkGraphGenerationJob.generate(outputPath + "/links", outputPath + "/iteration-00", outputPath + "/lookup-table/");
 
 
         // Job 4: calculate PageRank (iterative)
@@ -52,7 +51,7 @@ public class PageRank {
 
         // Job 5: sort top N by PageRank
         FindTopNJob findTopNJob = new FindTopNJob();
-        findTopNJob.queryTopNPageRanks(outputPath + "/iteration-" + twoDigits.format(iterations), outputPath + "/top-" + N + "-pagerank", outputPath + "/lookup-table/part-r-00000", N);
+        findTopNJob.queryTopNPageRanks(outputPath + "/iteration-" + twoDigits.format(iterations), outputPath + "/top-" + N + "-pagerank", outputPath + "/lookup-table/", N);
 
         stopWatch.stop();
         logger.info("Completed Jobs in " + stopWatch.getTime()/1000.0 + " seconds.");

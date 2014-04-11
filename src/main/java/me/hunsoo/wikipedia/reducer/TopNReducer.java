@@ -70,10 +70,12 @@ public class TopNReducer extends Reducer<NullWritable, Text, NullWritable, Text>
         // when called from reducer (if called from mapper, it works fine) it returns null.
         // this bug is fixed in hadoop 2.3, but we don't have 2.3 on EMR yet.
         // so we use getCacheArchives() instead.
-        URI[] caches = context.getCacheArchives();
-
         lookupTable = new HashMap<Integer, String>();
-        setupLookupTable(caches[0].getPath());
+
+        URI[] caches = context.getCacheArchives();
+        for (URI cache: caches) {
+            setupLookupTable(cache.getPath());
+        }
 
         // we are guaranteed to have at most N records in top N map now
         // emit those records in descending order here

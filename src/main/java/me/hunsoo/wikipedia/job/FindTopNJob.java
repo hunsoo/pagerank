@@ -4,6 +4,8 @@ import me.hunsoo.wikipedia.PageRank;
 import me.hunsoo.wikipedia.mapper.TopNMapper;
 import me.hunsoo.wikipedia.reducer.TopNReducer;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -16,9 +18,9 @@ import java.io.IOException;
 public class FindTopNJob {
     /**
      * Chooses top N pages with higher PageRanks.
-     * @param inputPath Input file path which is from the final iteration of pagerank
-     * @param outputPath Final output file path
-     * @param cachePath
+     * @param inputPath Input folder path which is from the final iteration of pagerank
+     * @param outputPath Final output folder path
+     * @param cachePath Lookup table folder path
      * @param N How many top results you want on the final output, which comes from command arguments
      * @throws java.io.IOException
      */
@@ -39,7 +41,11 @@ public class FindTopNJob {
         job.getConfiguration().set("N", Integer.toString(N));
 
         // add distributed cache
-        job.addCacheArchive(new Path(cachePath).toUri());
+        FileSystem fs = FileSystem.get(job.getConfiguration());
+        FileStatus[] files = fs.listStatus(new Path(cachePath));
+        for (FileStatus file: files) {
+            job.addCacheArchive(file.getPath().toUri());
+        }
 
         // for this specific job, we must have single reducer to finalize top N
         job.setNumReduceTasks(1);

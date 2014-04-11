@@ -17,10 +17,12 @@ public class LinkGraphMapper extends Mapper<LongWritable, Text, IntWritable, Tex
 
     @Override
     protected void setup(Context context) throws IOException {
-        URI[] caches = context.getCacheFiles();
         lookupTable = new HashMap<String, Integer>();
 
-        setupLookupTable(caches[0].getPath());
+        URI[] caches = context.getCacheArchives();
+        for (URI cache : caches) {
+            setupLookupTable(cache.getPath());
+        }
     }
 
     /**
